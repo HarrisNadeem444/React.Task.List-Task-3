@@ -2,11 +2,24 @@ import { useState } from "react";
 import { useEffect } from "react";
 import TaskList from "./Task";
 
+const getStorageItems = () => {
+  let list = localStorage.getItem("items");
+  if (list) {
+    return JSON.parse(localStorage.getItem("items"));
+  } else {
+    return [];
+  }
+};
+
 function AddTask() {
   const [taskName, setTaskName] = useState("");
   const [time, setTime] = useState("");
   const [status, setStatus] = useState("Not Completed");
-  const [itemArr, setItemArr] = useState([]);
+  const [itemArr, setItemArr] = useState(getStorageItems());
+
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(itemArr));
+  }, [itemArr]);
 
   return (
     <div>
